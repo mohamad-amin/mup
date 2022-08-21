@@ -224,7 +224,7 @@ if __name__ == '__main__':
         # for criterion in [F.cross_entropy, MSE_label]:
         for criterion in [MSE_label]:
 
-            for width in [64, 128, 256, 512, 1024, 2048, 4096, 8192, 8192 * 2]:
+            for width in [64, 128, 256, 512, 1024, 2048, 4096, 8192]:
                 # print(f'{nonlin.__name__}_{criterion.__name__}_{str(width)}')
                 mynet = MLP(width=width, nonlin=nonlin, output_mult=args.output_mult, input_mult=args.input_mult).to(device)
                 if args.save_base_shapes:

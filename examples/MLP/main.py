@@ -97,6 +97,7 @@ if __name__ == '__main__':
                         help='Do coord check with this many steps.')
     parser.add_argument('--coord_check_nseeds', type=int, default=5,
                         help='number of seeds for testing correctness of μ parametrization')
+    parser.add_argument('--run_index', type=int, default=0)
 
     args = parser.parse_args()
 
@@ -267,7 +268,7 @@ if __name__ == '__main__':
                     if math.isnan(train_loss):
                         break
     
-    with open(os.path.join(os.path.expanduser(args.log_dir), 'logs.tsv'), 'w') as f:
+    with open(os.path.join(os.path.expanduser(args.log_dir), 'logs_{}.tsv'.format(args.run_index)), 'w') as f:
         logdf = pd.DataFrame(logs)
-        print(os.path.join(os.path.expanduser(args.log_dir), 'logs.tsv'))
+        print(os.path.join(os.path.expanduser(args.log_dir), 'logs_{}.tsv'.format(args.run_index)))
         f.write(logdf.to_csv(sep='\t', float_format='%.4f'))

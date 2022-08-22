@@ -90,6 +90,7 @@ if __name__ == '__main__':
     parser.add_argument('--log_interval', type=int, default=300)
     parser.add_argument('--log_dir', type=str, default='.')
     parser.add_argument('--data_dir', type=str, default='/tmp')
+    parser.add_argument('--train_size', type=int, default=-1)
     parser.add_argument('--coord_check', action='store_true',
                         help='test μ parametrization is correctly implemented by collecting statistics on coordinate distributions for a few steps of training.')
     parser.add_argument('--coord_check_nsteps', type=int, default=3,
@@ -109,10 +110,14 @@ if __name__ == '__main__':
         [transforms.ToTensor(),
         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
-    trainset = datasets.CIFAR10(root=args.data_dir, train=True,
-                                            download=True, transform=transform)
+    trainset = datasets.CIFAR10(root=args.data_dir, train=True, download=True, transform=transform)
+    if args.train_size != -1:
+        perm = torch.randperm(len(trainset))
+        idx = perm[:args.train_size]
+        trainset = torch.utils.data.Subset(trainset, idx)
+
     train_loader = torch.utils.data.DataLoader(trainset, batch_size=args.batch_size,
-                                            shuffle=not args.no_shuffle, num_workers=2)
+                                            shuffle=not args.no_shuffle, num_workers=2, )
 
     testset = datasets.CIFAR10(root=args.data_dir, train=False,
                                         download=True, transform=transform)

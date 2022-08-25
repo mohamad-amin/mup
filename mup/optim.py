@@ -51,6 +51,10 @@ def MuAdam(params, impl=Adam, decoupled_wd=False, **kwargs):
         An instance of `impl` with refined parameter groups, each of which has the correctly
         scaled learning rate according to mup.
     '''
+
+    print('TEST, test processing param groups here')
+    import IPython; IPython.embed()
+
     new_param_groups = []
     for param_group in process_param_groups(params, **kwargs):
         # For every existing param group, we split into several new groups
@@ -62,6 +66,10 @@ def MuAdam(params, impl=Adam, decoupled_wd=False, **kwargs):
         # might have different width multipliers
         matrix_like_p = defaultdict(new_group) # key is width_mult
         vector_like_p = new_group()
+
+        print('TEST, matrix and vector like params')
+        import IPython; IPython.embed()
+
         for p in param_group['params']:
             assert hasattr(p, 'infshape'), (
                 f'A parameter with shape {p.shape} does not have `infshape` attribute. '
@@ -72,6 +80,10 @@ def MuAdam(params, impl=Adam, decoupled_wd=False, **kwargs):
                 raise NotImplementedError('more than 2 inf dimensions')
             else:
                 vector_like_p['params'].append(p)
+
+        print('TEST, matrix and vector like params after first loop')
+        import IPython; IPython.embed()
+
         for width_mult, group in matrix_like_p.items():
             # Scale learning rate and weight decay accordingly
             group['lr'] /= width_mult

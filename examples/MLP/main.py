@@ -138,12 +138,8 @@ if __name__ == '__main__':
             self.fc_1 = nn.Linear(3072, width, bias=False)
             self.fc_2 = nn.Linear(width, width, bias=False)
             self.fc_3 = MuReadout(width, num_classes, bias=False, output_mult=args.output_mult)
-            print('TEST, before resetting params')
-            import IPython; IPython.embed()
             self.reset_parameters()
-            print('TEST, after resetting params')
-            import IPython; IPython.embed()
-        
+
         def reset_parameters(self):
             nn.init.kaiming_normal_(self.fc_1.weight, a=1, mode='fan_in')
             self.fc_1.weight.data /= self.input_mult**0.5
@@ -249,11 +245,7 @@ if __name__ == '__main__':
                     import sys; sys.exit()
                 if args.load_base_shapes:
                     print(f'loading base shapes from {args.load_base_shapes}')
-                    print('TEST, before loading base shapes')
-                    import IPython; IPython.embed()
                     set_base_shapes(mynet, args.load_base_shapes)
-                    print('TEST, after loading base shapes')
-                    import IPython; IPython.embed()
                     print('done')
                 else:
                     print(f'using own shapes')

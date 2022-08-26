@@ -105,9 +105,6 @@ def MuSGD(params, impl=SGD, decoupled_wd=False, **kwargs):
         scaled learning rate according to mup.
     '''
 
-    print('TEST, test processing param groups here')
-    import IPython; IPython.embed()
-
     new_param_groups = []
     for param_group in process_param_groups(params, **kwargs):
         # For every existing param group, we split into several new groups
@@ -120,9 +117,6 @@ def MuSGD(params, impl=SGD, decoupled_wd=False, **kwargs):
         vector_like_p = defaultdict(new_group) # key is width mult
         matrix_like_p = defaultdict(new_group) # key is fan_in/out ratio
         fixed_p = new_group()
-
-        print('TEST, matrix and vector like params')
-        import IPython; IPython.embed()
 
         for p in param_group['params']:
             assert hasattr(p, 'infshape'), (
@@ -137,9 +131,6 @@ def MuSGD(params, impl=SGD, decoupled_wd=False, **kwargs):
             else:
                 fixed_p['params'].append(p)
 
-        print('TEST, matrix and vector like params after first loop')
-        import IPython; IPython.embed()
-
         for width_mult, group in vector_like_p.items():
             # Scale learning rate and weight decay accordingly
             group['lr'] *= width_mult
@@ -151,4 +142,8 @@ def MuSGD(params, impl=SGD, decoupled_wd=False, **kwargs):
                 group['weight_decay'] *= shape_ratio
         new_param_groups.extend(list(matrix_like_p.values()) + \
                                 list(vector_like_p.values()) + [fixed_p])
+
+    print('TEST, After changing parameters accordingly')
+    import IPython; IPython.embed()
+
     return impl(new_param_groups, **kwargs)

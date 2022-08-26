@@ -251,7 +251,7 @@ if __name__ == '__main__':
                     print(f'using own shapes')
                     set_base_shapes(mynet, None)
                     print('done')
-                print('TEST???????????????')
+                print('Width:', width)
                 optimizer = MuSGD(mynet.parameters(), lr=args.lr, momentum=args.momentum)
                 for epoch in range(1, args.epochs+1):
                     train_loss, train_acc, = train(args, mynet, device, train_loader, optimizer, epoch, criterion=criterion)

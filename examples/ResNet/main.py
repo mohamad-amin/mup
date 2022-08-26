@@ -157,6 +157,8 @@ if __name__ == '__main__':
     parser.add_argument('--num_workers', type=int, default=2)
     parser.add_argument('--test_num_workers', type=int, default=2)
     parser.add_argument('--momentum', type=float, default=0.9)
+    parser.add_argument('--data_dir', type=str, default='/tmp')
+    parser.add_argument('--train_size', type=int, default=-1)
     parser.add_argument('--coord_check', action='store_true',
                         help='test μ parametrization is correctly implemented by collecting statistics on coordinate distributions for a few steps of training.')
     parser.add_argument('--coord_check_nsteps', type=int, default=3,
@@ -165,6 +167,8 @@ if __name__ == '__main__':
                         help='number of seeds for coord check')
     parser.add_argument('--seed', type=int, default=1111,
                         help='random seed')
+    parser.add_argument('--run_index', type=int, default=0)
+
     args = parser.parse_args()
 
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -190,12 +194,17 @@ if __name__ == '__main__':
         ])
 
         trainset = torchvision.datasets.CIFAR10(
-            root='../dataset', train=True, download=True, transform=transform_train)
+            root=args.data_dir, train=True, download=True, transform=transform_train)
+        if args.train_size != -1:
+            perm = torch.randperm(len(trainset))
+            idx = perm[:args.train_size]
+            trainset = torch.utils.data.Subset(trainset, idx)
+
         trainloader = torch.utils.data.DataLoader(
             trainset, batch_size=args.batch_size, shuffle=True, num_workers=args.num_workers)
 
         testset = torchvision.datasets.CIFAR10(
-            root='../dataset', train=False, download=True, transform=transform_test)
+            root=args.data_dir, train=False, download=True, transform=transform_test)
         testloader = torch.utils.data.DataLoader(
             testset, batch_size=args.test_batch_size, shuffle=False, num_workers=args.test_num_workers)
 

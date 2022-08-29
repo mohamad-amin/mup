@@ -18,7 +18,7 @@ from mup.coord_check import get_coord_data, plot_coord_data
 from mup import MuAdam, MuSGD, get_shapes, make_base_shapes, set_base_shapes
 
 import resnet
-from .. import example_utils
+from examples import example_utils
 
 
 def coord_check(mup, lr, optimizer, nsteps, arch, base_shapes, nseeds, device='cuda', plotdir='', legend=False):

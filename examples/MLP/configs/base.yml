@@ -1,0 +1,18 @@
+data:
+  train_size: 50000
+  seed: 1111
+train:
+  lr: 0.1
+  epochs: 150
+  batch_size: 128
+  num_workers: 0
+  momentum: 0.9
+  criterion: l2
+model:
+  width_mult: 1
+  growth_factor: 2
+  save_base_shapes: false
+  load_base_shapes: width64.bsh
+  coord_check: false
+  coord_check_nsteps: 3
+  coord_check_nseeds: 1

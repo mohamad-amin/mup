@@ -13,6 +13,7 @@ train:
   test_num_workers: 2
   momentum: 0.9
   use_progress_bar: false
+  criterion: l2
 model:
   arch: resnet18
   width_mult: 1

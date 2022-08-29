@@ -189,6 +189,7 @@ if __name__ == '__main__':
     num_workers = config['train']['num_workers']
     test_num_workers = config['train']['test_num_workers']
     momentum = config['train']['momentum']
+    criterion_name = config['train'].get('criterion', 'l2')
     use_progress_bar = config['train'].get('use_progress_bar', False)
 
     train_size = config['data']['train_size']
@@ -314,8 +315,7 @@ if __name__ == '__main__':
         y_onehot -= 1 / 10
         return F.mse_loss(output, y_onehot)
 
-    # criterion = MSE_label
-    criterion = F.cross_entropy
+    criterion = MSE_label if criterion_name == 'l2' else F.cross_entropy
     if optimizer_name == 'musgd':
         optimizer = MuSGD(net.parameters(), lr=lr, momentum=momentum, weight_decay=weight_decay)
     elif optimizer_name == 'muadam':

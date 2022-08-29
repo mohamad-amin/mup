@@ -331,7 +331,10 @@ if __name__ == '__main__':
     logs = []
     for epoch in range(start_epoch, start_epoch+epochs):
         train_loss, train_acc = train(epoch, net, use_progress_bar)
-        test_loss, test_acc = test(epoch, net, use_progress_bar)
+        if epoch - start_epoch > 0.8 * epochs:
+            test_loss, test_acc = test(epoch, net, use_progress_bar)
+        else:
+            test_loss, test_acc = None, None
         scheduler.step()
         logs.append(dict(
             epoch=epoch,

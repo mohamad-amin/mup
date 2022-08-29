@@ -143,7 +143,4 @@ def MuSGD(params, impl=SGD, decoupled_wd=False, **kwargs):
         new_param_groups.extend(list(matrix_like_p.values()) + \
                                 list(vector_like_p.values()) + [fixed_p])
 
-    print('TEST, After changing parameters accordingly')
-    import IPython; IPython.embed()
-
     return impl(new_param_groups, **kwargs)

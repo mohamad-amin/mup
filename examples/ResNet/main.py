@@ -1,6 +1,7 @@
 '''Train CIFAR10 with PyTorch.'''
 import os
 import math
+import yaml
 import shutil
 import argparse
 
@@ -18,7 +19,12 @@ from mup.coord_check import get_coord_data, plot_coord_data
 from mup import MuAdam, MuSGD, get_shapes, make_base_shapes, set_base_shapes
 
 import resnet
-from examples import example_utils
+
+
+def load_config(config_path):
+    with open(config_path) as file:
+        config = yaml.load(file, Loader=yaml.FullLoader)
+    return config
 
 
 def coord_check(mup, lr, optimizer, nsteps, arch, base_shapes, nseeds, device='cuda', plotdir='', legend=False):
@@ -168,7 +174,7 @@ if __name__ == '__main__':
     
     os.makedirs(args.save_dir, exist_ok=True)
     shutil.copyfile(args.config_path, os.path.join(args.save_dir, "config.yml"))
-    config = example_utils.load_config(args.config_path)
+    config = load_config(args.config_path)
 
     arch = config['model']['arch']
     width_mult = config['model'].get('width_mult', 1)

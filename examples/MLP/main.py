@@ -1,5 +1,6 @@
 import time
 import os
+import yaml
 import shutil
 import pandas as pd
 import numpy as np
@@ -14,7 +15,11 @@ import math
 from mup.coord_check import get_coord_data, plot_coord_data
 from mup import MuSGD, get_shapes, set_base_shapes, make_base_shapes, MuReadout
 
-from examples import example_utils
+
+def load_config(config_path):
+    with open(config_path) as file:
+        config = yaml.load(file, Loader=yaml.FullLoader)
+    return config
 
 
 def coord_check(mup, lr, train_loader, nsteps, nseeds, output_mult, input_mult, load_base_shapes, growth_factor, plotdir='', legend=False):
@@ -86,7 +91,7 @@ if __name__ == '__main__':
 
     os.makedirs(args.save_dir, exist_ok=True)
     shutil.copyfile(args.config_path, os.path.join(args.save_dir, "config.yml"))
-    config = example_utils.load_config(args.config_path)
+    config = load_config(args.config_path)
 
     width_mult = config['model'].get('width_mult', 1)
     growth_factor = config['model'].get('growth_factor', 2)

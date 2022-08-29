@@ -42,7 +42,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='''
     PyTorch MLP on CIFAR-10, with μP.
 
-    This is the script we use in the MLP experiment in our paper.
+    This is the scripts we use in the MLP experiment in our paper.
 
     To train a μP model, one needs to first specify the base shapes. To save base shapes info, run, for example,
 

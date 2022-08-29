@@ -9,14 +9,15 @@ train:
   batch_size: 128
   test_batch_size: 128
   weight_decay: 0.0005
-  num_workers: 2
-  test_num_workers: 2
+  num_workers: 0
+  test_num_workers: 0
   momentum: 0.9
   use_progress_bar: false
   criterion: l2
 model:
   arch: resnet18
   width_mult: 1
+  growth_factor: 2
   save_base_shapes: false
   load_base_shapes: resnet18.bsh
   coord_check: false

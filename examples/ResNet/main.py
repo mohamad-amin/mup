@@ -4,8 +4,10 @@ import math
 import shutil
 import argparse
 
-import numpy as np
+
 import torch
+import numpy as np
+import pandas as pd
 import torch.nn as nn
 import torch.optim as optim
 import torchvision
@@ -341,3 +343,8 @@ if __name__ == '__main__':
         ))
         if math.isnan(train_loss):
             break
+
+    with open(os.path.join(os.path.expanduser(args.save_dir), 'logs.tsv'), 'w') as f:
+        logdf = pd.DataFrame(logs)
+        print(os.path.join(os.path.expanduser(args.log_dir), 'logs.tsv'))
+        f.write(logdf.to_csv(sep='\t', float_format='%.4f'))

@@ -315,7 +315,7 @@ if __name__ == '__main__':
         return F.mse_loss(output, y_onehot)
 
     # criterion = MSE_label
-    criterion = nn.CrossEntropyLoss()
+    criterion = F.cross_entropy
     if optimizer_name == 'musgd':
         optimizer = MuSGD(net.parameters(), lr=lr, momentum=momentum, weight_decay=weight_decay)
     elif optimizer_name == 'muadam':

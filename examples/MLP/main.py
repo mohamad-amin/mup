@@ -116,7 +116,7 @@ if __name__ == '__main__':
     seed = config['data']['seed']
     log_interval = config['data'].get('log_interval', 300)
 
-    torch.manual_seed(args.seed)
+    torch.manual_seed(seed)
     device = torch.device("cuda")
     kwargs = {'num_workers': 0, 'pin_memory': True}
 
@@ -167,7 +167,7 @@ if __name__ == '__main__':
             return self.fc_3(out)
 
 
-    def train(args, model, device, train_loader, optimizer, epoch,
+    def train(model, device, train_loader, optimizer, epoch,
             scheduler=None, criterion=F.cross_entropy):
         model.train()
         train_loss = 0
@@ -200,7 +200,7 @@ if __name__ == '__main__':
             100. * correct / len(train_loader.dataset)))
         return train_loss, train_acc
 
-    def test(args, model, device, test_loader,
+    def test(model, device, test_loader,
             evalmode=True, criterion=F.cross_entropy):
         if evalmode:
             model.eval()
@@ -267,9 +267,9 @@ if __name__ == '__main__':
                 print('Width:', width)
                 optimizer = MuSGD(mynet.parameters(), lr=lr, momentum=momentum)
                 for epoch in range(1, epochs+1):
-                    train_loss, train_acc, = train(args, mynet, device, train_loader, optimizer, epoch, criterion=criterion)
+                    train_loss, train_acc, = train(mynet, device, train_loader, optimizer, epoch, criterion=criterion)
                     if epoch - 1 > 0.8 * epochs:
-                        test_loss, test_acc = test(args, mynet, device, test_loader)
+                        test_loss, test_acc = test(mynet, device, test_loader)
                     else:
                         test_loss, test_acc = None, None
                     logs.append(dict(

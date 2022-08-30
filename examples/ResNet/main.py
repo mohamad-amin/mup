@@ -65,7 +65,6 @@ def coord_check(mup, lr, optimizer, nsteps, arch, base_shapes, nseeds, device='c
 
 # Training
 def train(epoch, net, use_progress_bar):
-    from examples.ResNet.utils import progress_bar
     print('\nEpoch: %d' % epoch)
     net.train()
     train_loss = 0
@@ -97,7 +96,6 @@ def train(epoch, net, use_progress_bar):
 
 
 def test(epoch, net, use_progress_bar):
-    from examples.ResNet.utils import progress_bar
     global best_acc
     net.eval()
     test_loss = 0

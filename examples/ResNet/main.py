@@ -279,6 +279,8 @@ if __name__ == '__main__':
             lr=lr, optimizer=optimizer_name, nsteps=coord_check_nsteps, arch=arch, base_shapes=load_base_shapes, nseeds=coord_check_nseeds, device=device,plotdir=plotdir, legend=False)
         import sys; sys.exit()
 
+    if config['train'].get('investigate_before_training', False):
+        import IPython; IPython.embed()
 
     # Model
     print('==> Building model..')

@@ -279,9 +279,6 @@ if __name__ == '__main__':
             lr=lr, optimizer=optimizer_name, nsteps=coord_check_nsteps, arch=arch, base_shapes=load_base_shapes, nseeds=coord_check_nseeds, device=device,plotdir=plotdir, legend=False)
         import sys; sys.exit()
 
-    if config['train'].get('investigate_before_training', False):
-        import IPython; IPython.embed()
-
     # Model
     print('==> Building model..')
     net = getattr(resnet, arch)(wm=width_mult, growth_factor=growth_factor)
@@ -304,6 +301,9 @@ if __name__ == '__main__':
         print(f'using standard parametrization')
         set_base_shapes(net, None)
         print('done')
+
+    if config['train'].get('investigate_before_training', False):
+        import IPython; IPython.embed()
 
     if resume:
         # Load checkpoint.

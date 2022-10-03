@@ -177,6 +177,7 @@ def set_base_shapes(model, base, rescale_params=True, delta=None, savefile=None,
         delta_shapes = _extract_shapes(delta)
         base_shapes = _zip_infshape_dict(base_shapes, delta_shapes)
     shapes = get_shapes(model)
+    import IPython; IPython.embed()
     infshapes = _zip_infshape_dict(base_shapes, shapes)
     if savefile is not None:
         save_base_shapes(infshapes, savefile)

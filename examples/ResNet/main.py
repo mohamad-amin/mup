@@ -295,7 +295,6 @@ if __name__ == '__main__':
 
     if load_base_shapese:
         print(f'loading base shapes from {load_base_shapese}')
-        import IPython; IPython.embed()
         set_base_shapes(net, load_base_shapese)
         print('done')
     else:

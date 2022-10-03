@@ -291,7 +291,18 @@ if __name__ == '__main__':
         print('done and exit')
         import sys; sys.exit()
 
+    X,y = [], []
+    for i in range(100):
+        a, b = trainset[i]
+        X.append(a)
+        y.append(b)
+
+    X = torch.stack(X).cuda()
+    y = torch.tensor(y).cuda()
+
     net = net.to(device)
+    print('Before loading')
+    import IPython; IPython.embed()
 
     if load_base_shapese:
         print(f'loading base shapes from {load_base_shapese}')

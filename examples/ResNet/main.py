@@ -178,7 +178,7 @@ if __name__ == '__main__':
     width_mult = config['model'].get('width_mult', 1)
     growth_factor = config['model'].get('growth_factor', 2)
     save_base_shapes = config['model'].get('save_base_shapes', '')
-    load_base_shapes = config['model'].get('load_base_shapes', '')
+    load_base_shapese = config['model'].get('load_base_shapes', '')
     do_coord_check = config['model'].get('coord_check', False)
     coord_check_nsteps = config['model']['coord_check_nsteps']
     coord_check_nseeds = config['model']['coord_check_nseeds']
@@ -293,10 +293,10 @@ if __name__ == '__main__':
 
     net = net.to(device)
 
-    if load_base_shapes:
-        print(f'loading base shapes from {load_base_shapes}')
+    if load_base_shapese:
+        print(f'loading base shapes from {load_base_shapese}')
         import IPython; IPython.embed()
-        set_base_shapes(net, load_base_shapes)
+        set_base_shapes(net, load_base_shapese)
         print('done')
     else:
         print(f'using standard parametrization')

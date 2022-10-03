@@ -286,6 +286,7 @@ if __name__ == '__main__':
         print(f'saving base shapes at {save_base_shapes}')
         base_shapes = get_shapes(net)
         delta_shapes = get_shapes(getattr(resnet, arch)(wm=width_mult/2))
+        import IPython; IPython.embed()
         make_base_shapes(base_shapes, delta_shapes, savefile=save_base_shapes)
         # save_shapes(net, save_base_shapes)
         print('done and exit')

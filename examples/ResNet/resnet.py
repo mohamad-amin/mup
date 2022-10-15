@@ -95,8 +95,7 @@ class ResNet(nn.Module):
         widths = [int(w * wm) for w in base_widths]
 
         self.in_planes = widths[0]
-        self.conv1 = nn.Conv2d(3, self.in_planes, kernel_size=3, stride=1,
-                                padding=1, bias=False)
+        self.conv1 = nn.Conv2d(3, self.in_planes, kernel_size=3, stride=1, padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(self.in_planes)
         self.layer1 = self._make_layer(block, widths[0], num_blocks[0], stride=1, is_first_in_block=False)
         self.layer2 = self._make_layer(block, widths[1], num_blocks[1], stride=2, is_first_in_block=True)
@@ -121,8 +120,7 @@ class ResNet(nn.Module):
         out = self.layer2(out)
         out = self.layer3(out)
         out = self.layer4(out)
-        # out = F.avg_pool2d(out, 4)
-        out = F.avg_pool2d(out, 32)
+        out = F.avg_pool2d(out, 4)
 
         pre_out = out.view(out.size(0), -1)
         final = self.linear(pre_out)

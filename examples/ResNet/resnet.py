@@ -23,8 +23,7 @@ class BasicBlock(nn.Module):
         self.bn2 = nn.BatchNorm2d(planes)
 
         self.shortcut = nn.Sequential()
-        # Todo: fix this later and remove is first in block
-        if stride != 1 or in_planes != self.expansion*planes or is_first_in_block:
+        if stride != 1 or in_planes != self.expansion*planes:
             self.shortcut = nn.Sequential(
                 nn.Conv2d(in_planes, self.expansion*planes, kernel_size=1,
                           stride=stride, bias=False),
@@ -100,9 +99,9 @@ class ResNet(nn.Module):
                                 padding=1, bias=False)
         self.bn1 = nn.BatchNorm2d(self.in_planes)
         self.layer1 = self._make_layer(block, widths[0], num_blocks[0], stride=1, is_first_in_block=False)
-        self.layer2 = self._make_layer(block, widths[1], num_blocks[1], stride=1, is_first_in_block=True)
-        self.layer3 = self._make_layer(block, widths[2], num_blocks[2], stride=1, is_first_in_block=True)
-        self.layer4 = self._make_layer(block, widths[3], num_blocks[3], stride=1, is_first_in_block=True)
+        self.layer2 = self._make_layer(block, widths[1], num_blocks[1], stride=2, is_first_in_block=True)
+        self.layer3 = self._make_layer(block, widths[2], num_blocks[2], stride=2, is_first_in_block=True)
+        self.layer4 = self._make_layer(block, widths[3], num_blocks[3], stride=2, is_first_in_block=True)
         ### This is the only μP related change ###
         self.linear = MuReadout(feat_scale*widths[3]*block.expansion, num_classes, readout_zero_init=True)
         ###########################################

@@ -196,6 +196,7 @@ if __name__ == '__main__':
     criterion_name = config['train'].get('criterion', 'l2')
     use_progress_bar = config['train'].get('use_progress_bar', False)
 
+    dataset_name = config['data'].get('name', 'cifar10')
     train_size = config['data']['train_size']
     seed = config['data']['seed']
 
@@ -250,8 +251,27 @@ if __name__ == '__main__':
             transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
         ])
 
-        trainset = torchvision.datasets.CIFAR10(
-            root=args.data_dir, train=True, download=True, transform=transform_train)
+        if dataset_name == 'cifar10':
+            trainset = torchvision.datasets.CIFAR10(
+                root=args.data_dir, train=True, download=True, transform=transform_train)
+            testset = torchvision.datasets.CIFAR10(
+                root=args.data_dir, train=False, download=True, transform=transform_test)
+        elif dataset_name == 'svhn':
+            root = os.path.join(args.data_dir, 'SVHN')
+            trainset = torchvision.datasets.SVHN(
+                root=root, split='train', download=True, transform=transform_train)
+            testset = torchvision.datasets.SVHN(
+                root=root, split='test', download=True, transform=transform_test)
+        elif dataset_name == 'fashionmnist':
+            root = os.path.join(args.data_dir, 'FashionMNIST')
+            trainset = torchvision.datasets.FashionMNIST(
+                root=root, train=True, download=True, transform=transform_train)
+            testset = torchvision.datasets.FashionMNIST(
+                root=root, train=False, download=True, transform=transform_test)
+        else:
+            print('Unknown dataset:', dataset_name)
+            exit()
+
         if train_size != -1:
             perm = torch.randperm(len(trainset))
             idx = perm[:train_size]
@@ -259,14 +279,8 @@ if __name__ == '__main__':
 
         trainloader = torch.utils.data.DataLoader(
             trainset, batch_size=batch_size, shuffle=True, num_workers=num_workers)
-
-        testset = torchvision.datasets.CIFAR10(
-            root=args.data_dir, train=False, download=True, transform=transform_test)
         testloader = torch.utils.data.DataLoader(
             testset, batch_size=test_batch_size, shuffle=False, num_workers=test_num_workers)
-
-        classes = ('plane', 'car', 'bird', 'cat', 'deer',
-                'dog', 'frog', 'horse', 'ship', 'truck')
 
     if do_coord_check:
         print('testing parametrization')
@@ -274,9 +288,9 @@ if __name__ == '__main__':
         os.makedirs('coord_checks', exist_ok=True)
         plotdir = 'coord_checks'
         coord_check(mup=True,
-            lr=lr, optimizer=optimizer_name, nsteps=coord_check_nsteps, arch=arch, base_shapes=load_base_shapes, nseeds=coord_check_nseeds, device=device, plotdir=plotdir, legend=False)
+            lr=lr, optimizer=optimizer_name, nsteps=coord_check_nsteps, arch=arch, base_shapes=load_base_shapese, nseeds=coord_check_nseeds, device=device, plotdir=plotdir, legend=False)
         coord_check(mup=False,
-            lr=lr, optimizer=optimizer_name, nsteps=coord_check_nsteps, arch=arch, base_shapes=load_base_shapes, nseeds=coord_check_nseeds, device=device,plotdir=plotdir, legend=False)
+            lr=lr, optimizer=optimizer_name, nsteps=coord_check_nsteps, arch=arch, base_shapes=load_base_shapese, nseeds=coord_check_nseeds, device=device,plotdir=plotdir, legend=False)
         import sys; sys.exit()
 
     # Model

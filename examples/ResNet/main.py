@@ -199,6 +199,7 @@ if __name__ == '__main__':
     dataset_name = config['data'].get('name', 'cifar10')
     train_size = config['data']['train_size']
     seed = config['data']['seed']
+    crop_size = config['data'].get('crop_size', 32)
 
     # parser.add_argument('--lr', default=0.1, type=float, help='learning rate')
     # parser.add_argument('--resume', '-r', action='store_true',
@@ -240,7 +241,7 @@ if __name__ == '__main__':
     if not save_base_shapes:
         print('==> Preparing data..')
         transform_train = transforms.Compose([
-            transforms.RandomCrop(32, padding=4),
+            transforms.RandomCrop(crop_size, padding=4),
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
             transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),

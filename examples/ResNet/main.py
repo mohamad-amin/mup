@@ -237,6 +237,9 @@ if __name__ == '__main__':
     # Set the random seed manually for reproducibility.
     torch.manual_seed(seed)
 
+    transform_mean = (0.4914, 0.4822, 0.4465) if dataset_name != 'fashionmnist' else 0.0
+    transform_std = (0.2023, 0.1994, 0.2010) if dataset_name != 'fashionmnist' else 1.0
+
     # Data
     if not save_base_shapes:
         print('==> Preparing data..')
@@ -244,12 +247,12 @@ if __name__ == '__main__':
             transforms.RandomCrop(crop_size, padding=4),
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
-            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+            transforms.Normalize(transform_mean, transform_std),
         ])
 
         transform_test = transforms.Compose([
             transforms.ToTensor(),
-            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+            transforms.Normalize(transform_mean, transform_std),
         ])
 
         if dataset_name == 'cifar10':
